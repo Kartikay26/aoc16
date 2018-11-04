@@ -16,6 +16,24 @@ typedef pair<int, int> pii;
 
 const int N = 1e6+1;
 
+complex<int> solve(vector<pair<char, int>> &directions){
+	complex<int> position = {0,0};
+	complex<int> face = {0,1};
+	map<char, complex<int>> m = {{'R',{0,-1}},{'L', {0,1}}};
+	set<pii> visited = {{0,0}};
+	for(auto dir : directions){
+		char d; int t;
+		tie(d,t) = dir;
+		face *= m[d];
+		for (int i = 1; i <= t; ++i) {
+			position += face;
+			pii pos = {position.real(), position.imag()};
+			if (visited.count(pos)) return position;
+			visited.insert(pos);
+		}
+	}
+	return 0;
+}
 
 int32_t main(){
 	fast_io();
@@ -27,5 +45,7 @@ int32_t main(){
 		cin.ignore(2);
 		directions.push_back({d,t});
 	}
-	debug(directions);
+	complex<int> position = solve(directions);
+	int ans = abs(position.real()) + abs(position.imag());
+	cout << "Answer: " << ans << endl;
 }
