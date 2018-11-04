@@ -27,8 +27,16 @@ int32_t main(){
 		cin.ignore(2);
 		directions.push_back({d,t});
 	}
+	complex<int> position = {0,0};
+	complex<int> face = {0,1};
+	map<char, complex<int>> m = {{'R',{0,-1}},{'L', {0,1}}};
 	for(auto dir : directions){
 		char d; int t;
 		tie(d,t) = dir;
+		face *= m[d];
+		position += face * t;
+		// debug(position);
 	}
+	int ans = abs(position.real()) + abs(position.imag());
+	cout << "Answer: " << ans << endl;
 }
